@@ -1,5 +1,6 @@
 
 import urllib.request
+import webbrowser
 
 print('renren status start')
 
@@ -16,11 +17,17 @@ auth_para_dict['scope'] = 'status_update'
 
 auth_para = '&'.join(["%s=%s" % (k, v) for k, v in auth_para_dict.items()])
 
-authUrl = 'https://graph.renren.com/oauth/authorize?' + auth_para
+auth_url = 'https://graph.renren.com/oauth/authorize?' + auth_para
 
-print(authUrl)
+# print(auth_url)
 
-req = urllib.request
+# webbrowser.open_new(auth_url)
+
+# req = urllib.request
+
+# r = req.urlopen(auth_url)
+# html = r.read()
+# print(html)
 
 if 0:
     r = urllib.request.urlopen('http://www.baidu.com')
@@ -30,3 +37,20 @@ if 0:
 # http://shell.renren.com/228417767/status
 # content=test&hostid=228417767&requestToken=-2031837365&_rtk=52a59da5&channel=renren
 # http://code.jquery.com/jquery-1.9.1.min.js
+
+
+
+
+
+
+
+ret_url = 'http://graph.renren.com/oauth/login_success.html#access_token=171902%7C6.68cf462ec3151fdc24b60f9646f21e12.2592000.1366437600-228417767&expires_in=2592243&scope=status_update'
+ret_kvs = ret_url.split('#')[1].split('&')
+print(ret_kvs)
+
+ret_dict = dict();
+for kv in ret_kvs:
+    kv_arr = kv.split('=')
+    ret_dict[kv_arr[0]] = kv_arr[1]
+print(ret_dict)
+
