@@ -1,5 +1,7 @@
+# coding=utf8
 
 from tkinter import *
+import threading
 import renren_api
 
 root = Tk()
@@ -11,11 +13,12 @@ entry.pack(side = LEFT)
 
 def update_status():
     btn.config(state = DISABLED, text = btn_text_dict['busy'])
+    threading.Thread(target = do_update, args = (), name = 'update thread').start()
+
+def do_update():
     status_text = status_var.get()
     token = renren_api.parse_token('http://xctest.sinaapp.com/renren_oauth#access_token=171902%7C6.e337de58f8715af0b7738ed90876a4d9.2592000.1366473600-228417767&expires_in=2595103&scope=status_update')
-    r = 1
-    r = renren_api.update_status(token['access_token'], status_text)
-    if r:
+    if renren_api.update_status(token['access_token'], status_text):
         status_var.set('')
     btn.config(state = NORMAL, text = btn_text_dict['normal'])
 
