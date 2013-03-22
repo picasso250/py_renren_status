@@ -3,7 +3,7 @@ from tkinter import *
 import renren_api
 
 root = Tk()
-root.title('xz')
+root.title('状态帝师')
 
 status_var = StringVar()
 entry = Entry(root, textvariable=status_var)
