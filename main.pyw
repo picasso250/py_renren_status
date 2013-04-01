@@ -3,6 +3,10 @@
 from tkinter import *
 import threading
 import renren_api
+import webbrowser
+
+# config
+token_file = 'renren.token'
 
 root = Tk()
 root.title('状态帝师')
@@ -17,7 +21,15 @@ def update_status():
 
 def do_update():
     status_text = status_var.get()
-    f = open('renren.token', 'r')
+
+    try:
+        f = open(token_file, 'r')
+    except IOError:
+        auth_url = renren_api.get_auth_url()
+        webbrowser.open_new(auth_url)
+        btn.config(state = NORMAL, text = btn_text_dict['save_token'], command = save_token)
+        return
+
     url = f.read()
     f.close()
     token = renren_api.parse_token(url)
@@ -25,9 +37,17 @@ def do_update():
         status_var.set('')
     btn.config(state = NORMAL, text = btn_text_dict['normal'])
 
+def save_token():
+    url = status_var.get()
+    f = open(token_file, 'w')
+    f.write(url)
+    f.close()
+    btn.config(text = btn_text_dict['normal'], command = update_status)
+
 btn_text_dict = {
     'normal': '发布状态',
-    'busy': '正在发布'
+    'busy': '正在发布',
+    'save_token': '保存令牌'
 }
 btn = Button(root, text = btn_text_dict['normal'], command = update_status)
 btn.pack(side = RIGHT)
