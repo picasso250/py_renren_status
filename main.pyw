@@ -7,13 +7,25 @@ import webbrowser
 
 # config
 token_file = 'renren.token'
+btn_text_dict = {
+    'normal': '发布状态',
+    'busy': '正在发布',
+    'save_token': '保存令牌'
+}
 
+# ui
 root = Tk()
 root.title('状态帝师')
 
 status_var = StringVar()
 entry = Entry(root, textvariable = status_var)
+btn = Button(root, text = btn_text_dict['normal'], command = update_status)
 entry.pack(side = LEFT)
+btn.pack(side = RIGHT)
+
+root.mainloop()
+
+# events
 
 def update_status():
     btn.config(state = DISABLED, text = btn_text_dict['busy'])
@@ -43,13 +55,3 @@ def save_token():
     f.write(url)
     f.close()
     btn.config(text = btn_text_dict['normal'], command = update_status)
-
-btn_text_dict = {
-    'normal': '发布状态',
-    'busy': '正在发布',
-    'save_token': '保存令牌'
-}
-btn = Button(root, text = btn_text_dict['normal'], command = update_status)
-btn.pack(side = RIGHT)
-
-root.mainloop()
