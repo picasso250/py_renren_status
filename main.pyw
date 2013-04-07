@@ -13,18 +13,6 @@ btn_text_dict = {
     'save_token': '保存令牌'
 }
 
-# ui
-root = Tk()
-root.title('状态帝师')
-
-status_var = StringVar()
-entry = Entry(root, textvariable = status_var)
-btn = Button(root, text = btn_text_dict['normal'], command = update_status)
-entry.pack(side = LEFT)
-btn.pack(side = RIGHT)
-
-root.mainloop()
-
 # events
 
 def update_status():
@@ -55,3 +43,17 @@ def save_token():
     f.write(url)
     f.close()
     btn.config(text = btn_text_dict['normal'], command = update_status)
+
+# ui
+
+root = Tk()
+root.title('状态帝师')
+
+status_var = StringVar()
+entry = Entry(root, textvariable = status_var)
+btn = Button(root, text = btn_text_dict['normal'], command = update_status)
+entry.pack(side = LEFT)
+btn.pack(side = RIGHT)
+
+root.mainloop()
+
