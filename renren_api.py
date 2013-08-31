@@ -1,6 +1,7 @@
 
 from urllib import request, parse
 import json
+import webbrowser
 
 def get_auth_url():
     renren_key = '7f67c7eb78a5475da8c9b264ceec49a6'
@@ -35,9 +36,17 @@ def update_status(access_token, status):
 
     req = request.urlopen(api_base_url, parse.urlencode(arg_dict).encode('utf8'))
     json_str = req.read().decode('utf8')
-    json_arr = json.loads(json_str)
+    json_dict = json.loads(json_str)
+    print(json_dict)
+    r = json_dict.get('result')
+    if r == 1:
+        return r
+    if json_dict.get('error_code') == 2002:
+        print(json_dict['error_msg'])
+        auth_url = get_auth_url()
+        webbrowser.open_new(auth_url)
 
-    return json_arr['result']
+    return json_dict
 
 if __name__ == '__main__':
     print('test get_auth_url')
